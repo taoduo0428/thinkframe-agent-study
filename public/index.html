@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7f8">
+  <meta name="description" content="ThinkFrame — 面向 AI Agent 工程师的个人技术学习与复习工作台。">
+  <title>ThinkFrame · Technical Fieldnotes</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/premium.css">
+  <link rel="stylesheet" href="/ocean.css">
+  <link rel="stylesheet" href="/theme.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" data-view="overview" aria-label="ThinkFrame 首页">
+        <span class="brand-mark">T</span>
+        <span class="brand-copy"><strong>ThinkFrame</strong><small>个人技术学习</small></span>
+      </a>
+      <nav class="top-nav" aria-label="主要导航">
+        <button class="top-nav-link active" data-view="overview">总览</button>
+        <button class="top-nav-link" data-view="bank">题库</button>
+        <button class="top-nav-link" data-view="study">复习</button>
+        <button class="top-nav-link" data-view="favorites">星标</button>
+        <button class="top-nav-link" data-view="add">导入题目</button>
+      </nav>
+      <div class="topbar-right">
+        <div class="local-status"><span class="online-dot"></span><span id="agent-status">本地运行</span></div>
+        <button class="topbar-add" data-action="quick-agent-open">问 Agent</button>
+        <button class="avatar-button" data-view="settings" aria-label="设置">设置</button>
+      </div>
+    </header>
+    <main class="main">
+      <div id="app-view" class="page-content" aria-live="polite">
+        <div class="loading-shell"><div class="skeleton loading-title"></div><div class="skeleton loading-hero"></div><div class="loading-grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></div>
+      </div>
+    </main>
+    <nav class="mobile-nav" aria-label="移动端主要导航">
+      <button class="mobile-nav-link active" data-view="overview" aria-label="总览"><span>⌂</span><small>总览</small></button>
+      <button class="mobile-nav-link" data-view="bank" aria-label="题库"><span>▤</span><small>题库</small></button>
+      <button class="mobile-nav-link" data-view="study" aria-label="复习"><span>↻</span><small>复习</small></button>
+      <button class="mobile-nav-link" data-view="favorites" aria-label="星标"><span>☆</span><small>星标</small></button>
+    </nav>
+  </div>
+  <div id="quick-agent-root"></div>
+  <div id="toast-root" class="toast-root"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

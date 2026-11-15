@@ -1,0 +1,19 @@
+{
+  "name": "thinkframe-agent-study",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node server/start.mjs index.mjs",
+    "start": "node server/start.mjs index.mjs",
+    "mcp": "node server/start.mjs mcp.mjs",
+    "import:source": "python scripts/import_source_pdf.py",
+    "index:knowledge": "python scripts/index_knowledge_base.py",
+    "check": "node --check server/start.mjs && node --check server/index.mjs && node --check server/mcp.mjs && node --check server/storage/question-store.mjs && node --check server/storage/agent-store.mjs && node --check scripts/audit-question-bank.mjs && node --check server/agent/provider.mjs && node --check server/agent/orchestrator.mjs && node --check server/agent/answerer.mjs && node --check server/agent/knowledge-retriever.mjs && node --check public/app.js && node --check public/answer-format.js && node --check public/question-relations.js",
+    "test": "node --test",
+    "audit:questions": "node scripts/audit-question-bank.mjs"
+  }
+}

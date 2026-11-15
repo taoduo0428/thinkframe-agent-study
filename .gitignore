@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.data/
+data/settings.local.json
+data/knowledge_chunks.jsonl
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+!.env.example
