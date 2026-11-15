@@ -1,4 +1,5 @@
 import { createServer } from "node:http";
+import { verifyBasicAuth } from "./auth.mjs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -21,6 +22,9 @@ const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.resolve(ROOT, "../public");
 const HOST = "127.0.0.1";
 const PORT = Number(process.env.PORT || 4173);
+const ACCESS_USERNAME = process.env.THINKFRAME_ACCESS_USERNAME || "thinkframe";
+const ACCESS_PASSWORD = String(process.env.THINKFRAME_ACCESS_PASSWORD || "");
+const REQUIRE_ACCESS_AUTH = process.env.THINKFRAME_REQUIRE_AUTH === "1";
 const MIME = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -372,6 +376,19 @@ async function handleApi(req, res, url) {
 
 const server = createServer(async (req, res) => {
   try {
+    const requestFromCloudflare = Boolean(req.headers["cf-connecting-ip"] || req.headers["cf-ray"]);
+    if ((REQUIRE_ACCESS_AUTH || requestFromCloudflare) && !ACCESS_PASSWORD) {
+      return sendJson(res, 503, { error: "ThinkFrame access protection is required but no password is configured." });
+    }
+    if (ACCESS_PASSWORD && !verifyBasicAuth(req.headers.authorization, ACCESS_USERNAME, ACCESS_PASSWORD)) {
+      res.writeHead(401, {
+        "WWW-Authenticate": 'Basic realm="ThinkFrame", charset="UTF-8"',
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff"
+      });
+      res.end("Authentication required");
+      return;
+    }
     const url = new URL(req.url || "/", "http://" + HOST + ":" + PORT);
     if (url.pathname.startsWith("/api/")) return await handleApi(req, res, url);
     return await serveStatic(url.pathname, res);

@@ -51,6 +51,16 @@ Without a configured model, the app still supports local question browsing and r
 
 Source-based claims and model-only additions are separated. PDF page numbers are shown alongside citations.
 
+## Public access protection
+
+The server binds to 127.0.0.1 and is intended to sit behind a Cloudflare Tunnel. Before exposing it publicly, configure these process environment variables:
+
+- THINKFRAME_REQUIRE_AUTH=1
+- THINKFRAME_ACCESS_USERNAME=thinkframe
+- THINKFRAME_ACCESS_PASSWORD=<a long random password>
+
+The app uses HTTP Basic Authentication for every page and API route. If a request arrives through Cloudflare without a configured password, the server fails closed with HTTP 503 rather than exposing the app or its data.
+
 ## MCP
 
 Run:
